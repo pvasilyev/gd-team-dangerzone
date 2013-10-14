@@ -1,86 +1,126 @@
 package opencup.xiv.round2;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class B {
+    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    PrintWriter writer = new PrintWriter(System.out);
 
-    private BufferedReader br;
-    private PrintWriter out;
-    private StringTokenizer st;
+    B() throws FileNotFoundException {
+        reader = new BufferedReader(new FileReader("b.in"));
+    }
 
-    public B() throws IOException {
-        out = new PrintWriter(System.out);
+    long[] readLongs() throws IOException {
+        String[] s = reader.readLine().split(" ");
+        long[] longs = new long[s.length];
+        for(int i = 0; i < longs.length; i++) {
+            longs[i] = Long.parseLong(s[i]);
+        }
+        return longs;
+    }
+
+    int[] readInts() throws IOException {
+        String[] s = reader.readLine().split(" ");
+        int[] ints = new int[s.length];
+        for(int i = 0; i < ints.length; i++) {
+            ints[i] = Integer.parseInt(s[i]);
+        }
+        return ints;
+    }
+
+    int[] tt;
+    int tx = 0;
+    int readInt() throws IOException {
+        if(tt == null || tx >= tt.length) {
+            tt = readInts();
+            tx = 0;
+        }
+        return tt[tx++];
+    }
+
+    void solve() throws IOException {
+        final int n = readInt();
+        int k = readInt();
+        int a = readInt();
+        int b = readInt();
+        int[][] edges = new int[k][];
+        for(int i = 0; i < k; i++) edges[i] = readInts();
+        final int[] c = new int[n + 1];
+        for(int[] e: edges) {
+            for(int x: e) {
+                c[x]++;
+            }
+        }
+        final int[][] g = new int[n + 1][];
+        for(int i = 1; i <= n; i++) {
+            g[i] = new int[c[i]];
+        }
+        for(int[] e: edges) {
+            g[e[0]][--c[e[0]]] = e[1];
+            g[e[1]][--c[e[1]]] = e[0];
+        }
+        for(int i = 1; i <= n; i++) {
+            Arrays.sort(g[i]);
+        }
+        final int INF = 1000 * 1000;
+        int[] d = new int[n + 1];
+        Arrays.fill(d, INF);
+        d[1] = 0;
+        Queue<Integer> q = new LinkedList<>();
+        q.add(1);
+        while(!q.isEmpty()) {
+            int u = q.poll();
+            for(int v: g[u]) {
+                if(d[v] > d[u] + 1) {
+                    d[v] = d[u] + 1;
+                    q.add(v);
+                }
+            }
+        }
+        int ans = INF;
+        if(1L * d[n] * a < ans) {
+            ans = d[n] * a;
+        }
+        Set<Integer> canUse = new TreeSet<>();
+        for(int i = 2; i <= n; i++) {
+            canUse.add(i);
+        }
+        Arrays.fill(d, INF);
+        d[1] = 0;
+        q.add(1);
+        int[] toRemove = new int[n + 1];
+        int qtr = 0;
+        while(!q.isEmpty()) {
+            int u = q.poll();
+            int ix = 0;
+            for(int v: canUse) {
+                while(ix < g[u].length && g[u][ix] < v) {
+                    ix++;
+                }
+                if(ix < g[u].length && g[u][ix] == v) {
+                    ix++;
+                }
+                else {
+                    if(d[v] > d[u] + 1) {
+                        toRemove[qtr++] = v;
+                        d[v] = d[u] + 1;
+                        q.add(v);
+                    }
+                }
+            }
+            while(qtr > 0) {
+                canUse.remove(toRemove[--qtr]);
+            }
+        }
+        if(1L * d[n] * b < ans) {
+            ans = d[n] * b;
+        }
+        writer.println(ans);
+        writer.flush();
     }
 
     public static void main(String[] args) throws IOException {
-        new org.mystic.opencup.round2.C().solve();
-    }
-
-    public String next() throws IOException {
-        while (st == null || !st.hasMoreTokens()) {
-            st = new StringTokenizer(br.readLine());
-        }
-        return st.nextToken();
-    }
-
-    public int nextInt() throws IOException {
-        return Integer.parseInt(next());
-    }
-
-    public long nextLong() throws IOException {
-        return Long.parseLong(next());
-    }
-
-    private void solve() throws IOException {
-        final FileInputStream reader = new FileInputStream("c.in");
-        FileChannel in = reader.getChannel();
-        final int all = (int) in.size() / 4;
-        final ByteBuffer buffer = in.map(FileChannel.MapMode.READ_ONLY, 0, in.size());
-
-        class Utils {
-            final int getInt(int k) {
-                int ret = 0;
-                for (int i = 3; i >= 0; i--) {
-                    ret <<= 8;
-                    ret += (int) (buffer.get(k * 4 + i)) & (1 << 8) - 1;
-                }
-                return ret;
-            }
-
-            int binarySearch(int x, int i1, int i2) {
-                //how many numbers in g, <= x
-                int lo = i1 - 1, hi = i2;
-                while (hi - lo > 1) {
-                    int med = lo + hi >> 1;
-                    if (getInt(med) > x) {
-                        hi = med;
-                    } else lo = med;
-                }
-                return hi - i1;
-            }
-        }
-        Utils u = new Utils();
-        int n = u.getInt(0);
-        int m = u.getInt(1);
-        int end = n * m + 2;
-        for (int j = end; j < all; j += 2) {
-            int x = u.getInt(j);
-            int y = u.getInt(j + 1);
-            x = Math.max(-1, x);
-            y = Math.max(-1, y);
-            int sum = 0;
-            for (int i = 0; i < n; i++) {
-                sum += u.binarySearch(y, i * m + 2, (i + 1) * (m) + 2) - u.binarySearch(x - 1, i * m + 2, (i + 1) * (m) + 2);
-            }
-            out.println(sum);
-        }
-        out.flush();
-        out.close();
+        new B().solve();
     }
 }
