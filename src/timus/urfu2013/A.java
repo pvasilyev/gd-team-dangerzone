@@ -40,12 +40,11 @@ public class A {
     private void solve() throws IOException {
         int a = nextInt();
         long n = a;
-        if(n == 4) {
+        if (n == 4) {
             out.println("0 2");
-        }
-        else if (n == 5) {
+        } else if (n == 5) {
             out.println("0 0");
-        } else if(n == 6) {
+        } else if (n == 6) {
             out.println("6 9");
 
         } else if (n % 2 == 1) {
