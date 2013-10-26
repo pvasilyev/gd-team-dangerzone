@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-// @todo submit, after problem would be available
 public class E {
 
     private BufferedReader br;
@@ -94,10 +93,8 @@ public class E {
                 }
                 return dp[n][k] = cur;
             }
-
         }
         out.printf(Locale.US, "%.10f\n", new Utils().expected(nn, kk));
         out.flush();
     }
-
 }
