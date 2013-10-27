@@ -77,52 +77,6 @@ public class K {
         out.close();
     }
 
-    final double eps = 1e-6;
-    boolean eq(double a, double b) {
-        return Math.abs(a - b) < eps;
-    }
-    boolean ge(double a, double b) {
-        return a > b || eq(a, b);
-    }
-    boolean le(double a, double b) {
-        return ge(b, a);
-    }
-    boolean gt(double a, double b) {
-        return a > b && !eq(a, b);
-    }
-
-    private int findRightMostPosition(double v, double[] c, int left, int right, int r) {
-        if (right - left == 1) {
-            return left;
-        }
-        int mid = (right + left) / 2;
-        if (c[mid] < v) {
-            return findRightMostPosition(v, c, mid, right, r);
-        }
-        double d = Math.abs(c[mid] - v);
-        if (le(d * d + 1 , r * r)) {
-            return findRightMostPosition(v, c, mid, right, r);
-        } else {
-            return findRightMostPosition(v, c, left, mid, r);
-        }
-    }
-
-    private int findLeftMostPosition(double v, double[] c, int left, int right, int r) {
-        if (right - left == 1) {
-            return right;
-        }
-        int mid = (right + left) / 2;
-        if (c[mid] > v) {
-            return findLeftMostPosition(v, c, left, mid, r);
-        }
-        double d = Math.abs(c[mid] - v);
-        if (le(d * d + 1 , r * r)) {
-            return findLeftMostPosition(v, c, left, mid, r);
-        } else {
-            return findLeftMostPosition(v, c, mid, right, r);
-        }
-    }
-
     public String next() throws IOException {
         while (st == null || !st.hasMoreTokens()) {
             st = new StringTokenizer(br.readLine());
