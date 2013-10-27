@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.StringTokenizer;
 
 public class K {
@@ -92,7 +91,4 @@ public class K {
         return Long.parseLong(next());
     }
 
-    public double nextDouble() throws IOException {
-        return Double.parseDouble(next());
-    }
 }
