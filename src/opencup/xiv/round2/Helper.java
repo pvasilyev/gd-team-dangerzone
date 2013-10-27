@@ -1,4 +1,4 @@
-package org.mystic.opencup.round2;
+package opencup.xiv.round2;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

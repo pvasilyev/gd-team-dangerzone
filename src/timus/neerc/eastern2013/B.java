@@ -1,24 +1,26 @@
-package opencup.xiv.round2;
+package timus.neerc.eastern2013;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class H {
+public class B {
 
     private BufferedReader br;
     private PrintWriter out;
     private StringTokenizer st;
 
-    public H() throws IOException {
-        br = new BufferedReader(new FileReader("h.in"));
+    public B() throws IOException {
+        br = new BufferedReader(new InputStreamReader(System.in));
         out = new PrintWriter(System.out);
+
     }
 
     public static void main(String[] args) throws IOException {
-        new H().solve();
+        new B().solve();
     }
 
     public String next() throws IOException {
@@ -38,12 +40,21 @@ public class H {
 
     private void solve() throws IOException {
         int n = nextInt();
-        if (n % 3 == 0) {
-            out.println(0);
-        } else {
-            out.println(1);
+        int k = nextInt();
+        int[] a = new int[n];
+        for(int i = 0; i < n; i++) {
+            a[i] = nextInt();
         }
+        int a1 = 0, a2 = 0;
+        for(int i = 0; i < n; i++) {
+            if(k > a[i]) {
+                a1 += k - a[i];
+            }
+            else {
+                a2 += a[i] - k;
+            }
+        }
+        out.println(a2 + " " + a1);
         out.flush();
-        out.close();
     }
 }
