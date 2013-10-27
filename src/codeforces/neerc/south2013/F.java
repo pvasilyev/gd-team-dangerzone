@@ -9,9 +9,6 @@ import java.util.Locale;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-/**
- * Created by mysterion on 10/27/13.
- */
 public class F {
     private BufferedReader br;
     private PrintWriter out;

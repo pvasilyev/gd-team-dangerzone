@@ -7,9 +7,6 @@ import java.io.PrintWriter;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-/**
- * Created by mysterion on 10/27/13.
- */
 public class B {
     private BufferedReader br;
     private PrintWriter out;

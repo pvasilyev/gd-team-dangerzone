@@ -6,9 +6,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
-/**
- * Created by mysterion on 10/27/13.
- */
 public class L {
 
     private BufferedReader br;
