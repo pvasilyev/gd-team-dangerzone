@@ -1,4 +1,4 @@
-package org.mystic.opencup.round1;
+package opencup.xiv.round1;
 
 import java.io.*;
 

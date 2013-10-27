@@ -1,24 +1,26 @@
-package opencup.xiv.round2;
+package timus.urfu2013;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
-public class H {
+public class D {
 
     private BufferedReader br;
     private PrintWriter out;
     private StringTokenizer st;
 
-    public H() throws IOException {
-        br = new BufferedReader(new FileReader("h.in"));
+    public D() throws IOException {
+        br = new BufferedReader(new InputStreamReader(System.in));
         out = new PrintWriter(System.out);
+
     }
 
     public static void main(String[] args) throws IOException {
-        new H().solve();
+        new D().solve();
     }
 
     public String next() throws IOException {
@@ -38,12 +40,12 @@ public class H {
 
     private void solve() throws IOException {
         int n = nextInt();
-        if (n % 3 == 0) {
-            out.println(0);
-        } else {
+        if (n == 1) {
             out.println(1);
+        } else {
+            double a = Math.PI / n;
+            out.printf(Locale.US, "%.10f", 1.0d / Math.sin(a) + 1);
         }
         out.flush();
-        out.close();
     }
 }
