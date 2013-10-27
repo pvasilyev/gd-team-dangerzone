@@ -63,13 +63,11 @@ public class L {
                 canBuy = Math.min(canBuy, maxBuy[i]);
                 shares += canBuy;
                 d -= canBuy * prices[i];
-                continue;
             }
             if (maxSell[i] > 0) {
                 int canSell = Math.min(shares, maxSell[i]);
                 d += canSell * prices[i];
                 shares -= canSell;
-                continue;
             }
         }
         out.println(d + " " + shares);
