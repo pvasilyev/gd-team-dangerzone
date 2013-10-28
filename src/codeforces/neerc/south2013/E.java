@@ -17,7 +17,6 @@ public class E {
     public E() throws IOException {
         br = new BufferedReader(new InputStreamReader(System.in));
         out = new PrintWriter(System.out);
-
     }
 
     public static void main(String[] args) throws IOException {
@@ -43,7 +42,7 @@ public class E {
     }
 
     private long[] naive(int[] iqs, int[] q) {
-        int[]  soldiers = new int[iqs.length];
+        int[] soldiers = new int[iqs.length];
         System.arraycopy(iqs, 0, soldiers, 0, iqs.length);
         long[] ans = new long[q.length + 1];
         ans[0] = naiveCountInversions(soldiers);
@@ -112,13 +111,11 @@ public class E {
             }
 
 
-
         }
         class MinSegTree {
 
             int q = 1;
             int[] a;
-
 
 
             {
@@ -151,8 +148,6 @@ public class E {
 
         }
         class SumSegTree {
-
-
             int q = 1;
             long[] a;
 
@@ -163,10 +158,6 @@ public class E {
                 a = new long[q * 2];
 
             }
-
-
-
-
 
             void add(int i, int x) {
                 for (i += q; i > 0; i >>= 1) {
@@ -216,9 +207,9 @@ public class E {
                 mst.add(s, iq[s]);
             }
         }
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             Soldier s = soldiers[i];
-            if(qbase[s.pos] != -1)
+            if (qbase[s.pos] != -1)
                 s.setQbase(qbase[s.pos]);
         }
         Arrays.sort(soldiers);
@@ -275,7 +266,6 @@ public class E {
             q[i] = nextInt();
         }
         long[] ans = solve(iq, q);
-//        long[] ans = naive(iq, q);
         for (int i = 0; i < ans.length; i++) {
             out.println(ans[i]);
         }
@@ -305,11 +295,11 @@ public class E {
                     out.print(q[j] + " ");
                 }
                 out.println();
-                for(int j = 0; j < n + 1; j++) {
+                for (int j = 0; j < n + 1; j++) {
                     out.print(naive[j] + " ");
                 }
                 out.println();
-                for(int j = 0; j < n + 1; j++) {
+                for (int j = 0; j < n + 1; j++) {
                     out.print(solve[j] + " ");
                 }
 
@@ -335,7 +325,7 @@ public class E {
 
         @Override
         public int compareTo(Soldier o) {
-            if(this.iq == o.iq) {
+            if (this.iq == o.iq) {
                 return Integer.compare(o.qbase, this.qbase);
             }
             return Integer.compare(this.iq, o.iq);
