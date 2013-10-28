@@ -8,6 +8,9 @@ import java.util.Locale;
 import java.util.StringTokenizer;
 
 public class B {
+
+    private static final double EPS = 1e-6;
+
     private BufferedReader br;
     private PrintWriter out;
     private StringTokenizer st;
@@ -56,50 +59,55 @@ public class B {
         out.close();
     }
 
-    final double eps = 1e-6;
-    boolean eq(double a, double b) {
-        return Math.abs(a - b) < eps;
+
+    private boolean eq(double a, double b) {
+        return Math.abs(a - b) < EPS;
     }
-    boolean ge(double a, double b) {
+
+    private boolean ge(double a, double b) {
         return a > b || eq(a, b);
     }
-    boolean le(double a, double b) {
+
+    private boolean le(double a, double b) {
         return ge(b, a);
     }
-    boolean gt(double a, double b) {
+
+    private boolean gt(double a, double b) {
         return a > b && !eq(a, b);
     }
 
     private int findRightMostPosition(double v, double[] c, int left, int right, int r) {
-        if (right - left == 1) {
-            return left;
+        while (right - left > 1) {
+            int mid = (right + left) / 2;
+            if (c[mid] < v) {
+                left = mid;
+            } else {
+                double d = Math.abs(c[mid] - v);
+                if (le(d * d + 1 , r * r)) {
+                    left = mid;
+                } else {
+                    right = mid;
+                }
+            }
         }
-        int mid = (right + left) / 2;
-        if (c[mid] < v) {
-            return findRightMostPosition(v, c, mid, right, r);
-        }
-        double d = Math.abs(c[mid] - v);
-        if (le(d * d + 1 , r * r)) {
-            return findRightMostPosition(v, c, mid, right, r);
-        } else {
-            return findRightMostPosition(v, c, left, mid, r);
-        }
+        return left;
     }
 
     private int findLeftMostPosition(double v, double[] c, int left, int right, int r) {
-        if (right - left == 1) {
-            return right;
+        while (right - left > 1) {
+            int mid = (right + left) / 2;
+            if (c[mid] > v) {
+                right = mid;
+            } else {
+                double d = c[mid] - v;
+                if (le(d * d + 1 , r * r)) {
+                    right = mid;
+                } else {
+                    left = mid;
+                }
+            }
         }
-        int mid = (right + left) / 2;
-        if (c[mid] > v) {
-            return findLeftMostPosition(v, c, left, mid, r);
-        }
-        double d = Math.abs(c[mid] - v);
-        if (le(d * d + 1 , r * r)) {
-            return findLeftMostPosition(v, c, left, mid, r);
-        } else {
-            return findLeftMostPosition(v, c, mid, right, r);
-        }
+        return right;
     }
 
     public String next() throws IOException {

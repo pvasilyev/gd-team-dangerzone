@@ -27,24 +27,24 @@ public class F {
         int n = nextInt();
         int m = nextInt();
         int[] time = new int[n];
-        double[] p = new double[n];
+        double[] probability = new double[n];
 
         for (int i = 0; i < n; i++) {
             time[i] = nextInt();
-            p[i] = nextDouble();
+            probability[i] = nextDouble();
         }
 
         double expectedTotalTime = 0D;
         int[] timeFinished = calculateTimeFinished(m,  time);
         int expectedTime = 0;
-        double pp = 1D;
+        double p = 1D;
         for (int i = 0; i < n; i++) {
             expectedTime = Math.max(expectedTime, timeFinished[i]);
-            double probability = pp * (1 - p[i]);
-            pp *= p[i];
-            expectedTotalTime += expectedTime * probability;
+            double currentProbability = p * (1 - probability[i]);
+            expectedTotalTime += expectedTime * currentProbability;
+            p *= probability[i];
         }
-        expectedTotalTime += pp * expectedTime;
+        expectedTotalTime += p * expectedTime;
 
         out.printf(Locale.US, "%.6f", expectedTotalTime);
         out.close();
